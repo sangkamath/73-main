@@ -1,6 +1,17 @@
 ﻿using System;
 
 // Using depth-first search - Time: O(n)
+/*
+The time complexity of the function binaryTreeMaximumDepth is O(n), where n is 
+the number of nodes in the binary tree. This is because the function visits 
+each node exactly once to calculate the maximum depth, resulting in a linear traversal of the tree.
+
+The space complexity is O(h), where h is the height of the binary tree. This 
+space is used by the call stack during the recursive function calls. In 
+the worst case, for a skewed tree (where each node has only one child), 
+the height h can be equal to n, leading to a space complexity of O(n). In a 
+balanced binary tree, the height would be O(log n), resulting in a space complexity of O(log n).
+*/
 
 public class TreeNode
 {
