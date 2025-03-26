@@ -103,6 +103,12 @@ class Thesaurus {
     }
 
     // Adds a word with related synonyms
+    /*
+    - Time Complexity: O(n), where n is the number of synonyms. This is
+     because we iterate through the list of synonyms to add them to the set.
+   - Space Complexity: O(n) in the worst case, as we may need to store 
+   all the synonyms in the map.
+    */
     addWord(word, synonyms) {
         if (!this.map.has(word)) {
             this.map.set(word, new Set());
@@ -123,16 +129,33 @@ class Thesaurus {
     }
 
     // Get synonyms of a word
+    /*
+      - Time Complexity: O(1) for the map lookup, plus O(m) to convert
+       the set of synonyms to an array, where m is the number of synonyms 
+       for the word. Thus, the overall complexity is O(m).
+   - Space Complexity: O(m) for the array created from the set of synonyms.
+    */
     getSynonyms(word) {
         return this.map.has(word) ? Array.from(this.map.get(word)) : [];
     }
 
     // Check if two words are synonyms
+    /*
+       - Time Complexity: O(1) for the map lookup and set membership check.
+   - Space Complexity: O(1) since no additional space is used.
+    */
     areSynonyms(word1, word2) {
         return this.map.has(word1) && this.map.get(word1).has(word2);
     }
 
     // Remove a word and its relationships
+    /*
+    - Time Complexity: O(k), where k is the number of synonyms associated with 
+    the word being removed. We need to iterate through the synonyms to remove
+     the word from their sets.
+   - Space Complexity: O(1) since we are not using any additional data structures
+    that grow with input size.
+    */
     removeWord(word) {
         if (!this.map.has(word)) return;
 
@@ -146,6 +169,12 @@ class Thesaurus {
     }
 
     // Merge synonyms of two words under one entry
+    /*
+    - Time Complexity: O(k + m), where k is the number of synonyms
+     for word1 and m is the number of synonyms for word2. We need 
+     to combine the sets of synonyms and update the map.
+   - Space Complexity: O(k + m) for the merged set of synonyms.
+    */
     mergeWords(word1, word2) {
         if (!this.map.has(word1) || !this.map.has(word2)) return;
 
@@ -242,9 +271,20 @@ class Thesaurus {
     constructor() {
         this.parent = new Map();  // Tracks the representative (root) of each group
         this.synonyms = new Map(); // Stores words and their actual synonym sets
+        /*
+-       The space complexity is O(n) for the `parent` map, which stores
+ the representative for each word, and O(n) for the `synonyms` map, which
+  stores the sets of synonyms. Therefore, the overall space complexity
+   is O(n), where n is the number of unique words added to the thesaurus.
+        */
     }
 
     // 🔹 Find the root representative of a word (with path compression)
+    /*
+    The `find` method has a time complexity of O(α(n)), where α is the inverse Ackermann 
+    function. This is nearly constant time for practical input sizes due to the efficiency 
+    of path compression in union-find structures.
+    */
     find(word) {
         if (!this.parent.has(word)) {
             this.parent.set(word, word);
@@ -257,6 +297,14 @@ class Thesaurus {
     }
 
     // 🔹 Merge two words into the same synonym group
+    /*
+    The `mergeWords` method involves two calls to `find`, which are O(α(n)), and
+     then it processes the sets of synonyms. The time taken to merge the sets 
+     is proportional to the size of the sets being merged. In the worst case, 
+     if all words are in one set, this could be O(n), where n is the number
+      of words. However, since the merging is done in a way that keeps the 
+      overall structure efficient, the average case remains close to O(α(n)).
+    */
     mergeWords(word1, word2) {
         let root1 = this.find(word1);
         let root2 = this.find(word2);
@@ -283,12 +331,20 @@ class Thesaurus {
     }
 
     // 🔹 Get synonyms of a word
+    /*
+    The `getSynonyms` method also has a time complexity of O(α(n)) for the `find` operation, 
+    followed by O(k) to convert the set to an array, where k is the number of 
+    synonyms for the word.
+    */
     getSynonyms(word) {
         let root = this.find(word);
         return this.synonyms.has(root) ? Array.from(this.synonyms.get(root)) : [];
     }
 
     // 🔹 Check if two words are synonyms
+    /*
+     The `areSynonyms` method has a time complexity of O(α(n)) due to the two `find` calls.
+    */
     areSynonyms(word1, word2) {
         return this.find(word1) === this.find(word2);
     }
