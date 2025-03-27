@@ -10,6 +10,23 @@
  * @param {TreeNode} root
  * @param {number} targetSum
  * @return {number}
+ * The time complexity of the provided code is O(N), 
+ * where N is the number of nodes in the binary tree.
+ *  This is because the algorithm performs a single traversal 
+ * of the tree, visiting each node exactly once. During this 
+ * traversal, it performs constant-time operations such as 
+ * updating the current sum and checking/updating the 
+ * prefix sum count in the map.
+ * The space complexity is O(H), where H is the height of 
+ * the binary tree. This space is used by the recursion 
+ * stack due to the depth of the recursive calls. 
+ * Additionally, the space used by the prefixSumCount map
+ *  can grow up to O(N) in the worst case if all node values
+ *  are unique and contribute to different prefix sums. 
+ * However, in a balanced tree, the height H is log(N), 
+ * making the space complexity O(log N) in that case. Overall,
+ *  the dominant factor in space complexity is the recursion
+ *  stack, leading to O(H) as the final space complexity.
  */
 var pathSum = function(root, targetSum) {
     const solution = new Solution();
@@ -54,6 +71,58 @@ class Solution {
     }
 }
 
+/*
+The time complexity of the given solution is O(N^2), 
+where N is the number of nodes in the binary tree. This 
+is because for each node, the helper function is called, 
+and within that function, we iterate through the list of 
+node values to calculate the current sum. In the worst case, 
+the list can contain all the nodes in the path from the root
+ to a leaf, leading to O(N) operations for each of the N nodes.
+ The space complexity is O(H), where H is the height of the binary
+  tree. This is due to the recursion stack used during the depth-first 
+  traversal of the tree. Additionally, the list used to store the current 
+  path can also grow to a maximum size of H, which contributes to the
+   space complexity. In the case of a balanced tree, H would be 
+   O(log N), while in the case of a skewed tree, H could be O(N).
+*/
+class Solution {
+    constructor() {
+        this.counter = 0;
+        this.target = 0;
+    }
+
+    pathSum(root, targetSum) {
+        this.target = targetSum;
+        this.helper(root, []);
+        return this.counter;
+    }
+
+    helper(root, list) {
+        if (!root) return;
+
+        // Add current node's value
+        list.push(root.val);
+
+        // Iterate the list backwards to get curSum
+        let curSum = 0;
+        for (let i = list.length - 1; i >= 0; i--) {
+            curSum += list[i];
+            if (curSum === this.target) {
+                this.counter++;
+            }
+        }
+
+        // Traverse left
+        this.helper(root.left, list);
+
+        // Traverse right
+        this.helper(root.right, list);
+
+        // Remove current node's value from the list (backtracking)
+        list.pop();
+    }
+}
 /**
  * Definition for a binary tree node.
  * public class TreeNode {

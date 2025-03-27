@@ -22,6 +22,15 @@ class BSTIterator {
     }
 
     // Returns the next smallest number
+    /*
+     The `next()` method has an average time complexity of O(1) for popping the
+      top element from the stack and returning its value. However, if the popped
+       node has a right child, the `_leftmostInorder()` method is called to push 
+       all leftmost nodes of the right subtree onto the stack. In the worst case, 
+       this can take O(h) time, where h is the height of the tree. Since the 
+       height of a balanced binary search tree is O(log n), the average case 
+       remains O(1), but in the worst case (for a skewed tree), it can be O(n).
+    */
     next() {
         let topNode = this.stack.pop(); // Get the top of the stack (smallest element)
         
@@ -34,9 +43,21 @@ class BSTIterator {
     }
 
     // Returns whether we have a next smallest number
+    /*
+     The `hasNext()` method simply checks the length of the stack, 
+     which is an O(1) operation.
+    */
     hasNext() {
         return this.stack.length > 0;
     }
+
+    /*
+    The space complexity of the BSTIterator is O(h), where h is the height of the
+     tree. This is because the stack stores nodes along the leftmost path from
+      the root to the current node. In the worst case of a skewed tree, the height 
+      can be O(n), leading to a space complexity of O(n). In a balanced tree, the 
+      space complexity would be O(log n). 
+    */
 }
 /*
 How It Works
@@ -103,6 +124,12 @@ console.log(iterator.hasNext()); // false
 
 var BSTIterator = function(root) 
 {
+    /*
+The constructor `BSTIterator` performs an in-order traversal of the BST 
+to populate the `arr` array with the values of the nodes. This traversal
+ visits each node exactly once, resulting in a time complexity of O(n), 
+ where n is the number of nodes in the tree.
+    */
     this.arr = [];
     const go = (node) => {
         if (!node) return;
@@ -112,13 +139,26 @@ var BSTIterator = function(root)
     }
     go(root);
 };
+/*
+The `next` method uses `shift()` to remove the first element from the array. 
+The `shift()` operation has a time complexity of O(n) because it needs to
+re-index the remaining elements in the array.
+*/
 BSTIterator.prototype.next = function() 
 {
     return this.arr.shift();
 };
+
+//The `hasNext` method simply checks the length of the array, which is O(1).
 BSTIterator.prototype.hasNext = function() 
 {
     return this.arr.length > 0;
 };
+
+/*
+The space complexity is O(n) because the `arr` array stores all the values of 
+the nodes in the BST. This requires additional space proportional to the 
+number of nodes in the tree.
+*/
 
 //SC - O(n)

@@ -58,24 +58,11 @@ Edit
 Now, curr = 2, and the process repeats.
 Eventually, every left subtree gets moved to the right.
 Complexity Analysis
-Time Complexity: 
-𝑂
-(
-𝑁
-)
-O(N)
-Each node is visited once, and we traverse its left subtree (finding runner takes at most height of tree 
-𝑂
-(
-𝐻
-)
+Time Complexity: O(N)
+Each node is visited once, and we traverse its left subtree 
+(finding runner takes at most height of tree 
 O(H), but overall, we visit each node once).
-Space Complexity: 
-𝑂
-(
-1
-)
-O(1)
+Space Complexity: O(1)
 No extra data structures are used—just pointers are modified in place.
 Key Takeaways
 ✅ Uses in-place modification (no extra space).

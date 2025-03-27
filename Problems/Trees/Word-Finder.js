@@ -6,12 +6,32 @@ class TrieNode {
 }
 
 export default class WordFinder {
+    /*
+    **Trie Structure**: The space complexity of the Trie depends 
+    on the number of words added and their average length. 
+    In the worst case, if all characters are unique, 
+    the space complexity can be O(N * L), where N is the 
+    number of words and L is the average length of the words. 
+    Each node in the Trie can have up to 26 children 
+    (for each letter of the alphabet), leading to potentially large space usage.
+    **Auxiliary Space**: The auxiliary space used during the search operation 
+    is O(L) due to the recursive call stack in the `dfs` method. However,
+     this is generally overshadowed by the space used by the Trie itself.
+
+In summary, the time complexity for both adding and searching words is
+ O(L), and the space complexity is O(N * L) in the worst case, where 
+ N is the number of words and L is the average length of the words.
+    */
     constructor() {
         this.root = new TrieNode();
     }
 
     /**
      * @param {string} word
+     * **Adding a Word (`addWord` method)**: The time complexity 
+     * for adding a word of length `L` is O(L). This is because
+     *  we traverse each character of the word and insert it into
+     *  the Trie, which involves a constant amount of work for each character.
      */
     addWord(word) {
         let node = this.root;
@@ -28,6 +48,11 @@ export default class WordFinder {
     /**
      * @param {string} word
      * @returns {boolean}
+     * Searching for a Word (`search` method)**: The time complexity 
+     * for searching a word of length `L` is also O(L). In the worst 
+     * case, we may need to traverse the entire length of the word. 
+     * If the word contains a '.', we may have to explore multiple 
+     * paths, but since there are at most 26 letters, the search remains efficient.
      */
     search(word) {
         return this.dfs(this.root, word, 0);

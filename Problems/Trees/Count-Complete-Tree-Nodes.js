@@ -55,6 +55,20 @@ function getHeight(node) {
 /*
 Time Complexity
 Still O(log² N) since it calculates height in O(log N) and recursively halves the tree.
+The time complexity of this algorithm is O(log n * log n) in the average case 
+and O(n) in the worst case. This is because the function computes the left and 
+right depths of the tree, which takes O(log n) time for each call in a balanced 
+tree. Since the `traverse` function is called recursively, it can lead to
+ multiple depth calculations, resulting in the average case being
+  O(log n * log n). However, in the worst case, where the tree is
+  not balanced (e.g., a skewed tree), the depth calculations can 
+  take O(n) time, leading to an overall complexity of O(n).
+Space Complexity:
+The space complexity is O(log n) due to the recursion stack used during the depth 
+calculations. In the worst case of a skewed tree, the space complexity can reach
+ O(n) because the maximum depth of the recursion stack can be equal to the number
+  of nodes in the tree. However, for a complete binary tree, the average space
+   complexity is O(log n).
 */
 
 var countNodes = function(root) {
