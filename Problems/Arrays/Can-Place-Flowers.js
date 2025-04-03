@@ -50,3 +50,50 @@ public class Solution {
     }
 }
 */
+
+/**
+ * @param {number[]} flowerbed
+ * @param {number} n
+ * @return {boolean}
+ * The time complexity of the `canPlaceFlowers` function is
+ *  O(m), where m is the length of the `flowerbed` array. This 
+ * is because the function iterates through the entire array 
+ * once, checking each position to determine if a flower can
+ *  be placed.
+
+The space complexity is O(1), as the function uses a constant
+ amount of extra space regardless of the input size. It only 
+ utilizes a few variables (`last`, `result`, and the loop 
+ index `i`) to keep track of the state during the iteration, 
+ without requiring any additional data structures that grow
+  with the input size.
+ */
+var canPlaceFlowers = function (flowerbed, n) {
+    if(n === 0) return true;
+
+    var last = 0;
+    var result = n;
+    for (var i = 0; i < flowerbed.length; i++) {
+        if (flowerbed[i] == 0 && last != i - 1) {
+            if (i === 0 && flowerbed[i+1] != 1) {
+                result -= 1;
+                last = i;
+            }
+            if (i > 0 && i < flowerbed.length && flowerbed[i - 1] != 1 && flowerbed[i+1] != 1) {
+                result -= 1;
+                last = i;
+            }
+
+            if(i === flowerbed.length && flowerbed[i - 1] != 1) {
+                result -= 1;
+                last = i;
+            }
+        }
+
+        if(result === 0) {
+            return true;
+        }
+    }
+
+    return result === 0;
+};
