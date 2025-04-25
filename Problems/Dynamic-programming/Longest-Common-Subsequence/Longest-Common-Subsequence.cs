@@ -52,6 +52,39 @@ public class Solution
         }
         return dp[s1.Length, s2.Length];
     }
+
+    public class Solution {
+    public int LongestCommonSubsequence(string str1, string str2) {
+        int m = str1.Length;
+        int n = str2.Length;
+
+        if(m < n) {
+            (m, n) = (n, m);
+            (str1, str2) = (str2, str1);
+        }
+
+        int[] prev = new int[n+1];
+        int[] curr = new int[n+1];
+
+        for(int i = 1; i <= m; i++) {
+            for(int j = 1; j <= n; j++ ) {
+                   if (str1[i - 1] == str2[j - 1]) {
+                // Characters match: Extend LCS
+                    curr[j] = prev[j - 1] + 1;
+                } else {
+                // No match: Take the max from previous row or left cell
+                    curr[j] = Math.Max(prev[j], curr[j - 1]);
+                }
+            }
+             // Swap references instead of copying
+            var temp = prev;
+            prev = curr;
+            curr = temp;
+        }
+            return prev[n];
+    }
+
+}
     */
 {
     public int LongestCommonSubsequence(string text1, string text2)
